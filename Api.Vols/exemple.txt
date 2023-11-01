@@ -1,0 +1,15 @@
+{
+  "id": {},
+  "flightNumber": "AV123",
+"origine": "Paris",
+   "destination": "New York",
+  "date": "2023-10-27T21:09:08.481Z",
+  "sieges": [
+      {"name": "A1", "status": "Disponible"},
+       {"name": "A2", "status": "Disponible"}
+  ],
+  "informationAeroplane": {
+    "modele": "Boeing 737",
+    "compagny": "AirFrance"
+  }
+}

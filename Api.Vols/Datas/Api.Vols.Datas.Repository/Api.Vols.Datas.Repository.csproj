@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api.Vols.Datas.Context\Api.Vols.Datas.Context.csproj" />
+    <ProjectReference Include="..\Api.Vols.Datas.Entities\Api.Vols.Datas.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

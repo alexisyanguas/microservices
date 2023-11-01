@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Refit" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Datas\Api.Reservation.Datas.Repository\Api.Reservation.Datas.Repository.csproj" />
+    <ProjectReference Include="..\..\Generals\Api.Reservation.Generals.Common\Api.Reservation.Generals.Common.csproj" />
+    <ProjectReference Include="..\Api.Reservation.Business.Models\Api.Reservation.Business.Models.csproj" />
+  </ItemGroup>
+
+</Project>
