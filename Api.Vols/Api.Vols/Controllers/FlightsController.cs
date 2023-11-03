@@ -55,7 +55,7 @@ namespace Api.Vols.Controllers
             return Ok(_flightRepository.CreateFlight(flight));
         }
 
-        // PUT api/Flights
+        // PUT api/Flights/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Flight), 200)]
         public IActionResult UpdateFlight(string id, [FromBody] Flight flight)
@@ -105,16 +105,16 @@ namespace Api.Vols.Controllers
         // PUT api/Flights/{numeroVol}/siege/{nomSiege}
         [HttpPut("{numeroVol}/siege/{nomSiege}")]
         [ProducesResponseType(typeof(Seat), 200)]
-        public IActionResult UpdateSeat(string numeroVol, string nomSiege, [FromBody] Seat seat)
+        public IActionResult UpdateSeat(string numeroVol, string nomSiege, [FromBody] Seat updatedSeat)
         {
-            var checkSeat = _flightRepository.GetSeatStatus(numeroVol, nomSiege);
+            var seat = _flightRepository.GetSeatStatus(numeroVol, nomSiege);
 
-            if (checkSeat == null)
+            if (seat == null)
             {
                 return NotFound();
             }
 
-            return Ok(_flightRepository.UpdateSeat(numeroVol, seat));
+            return Ok(_flightRepository.UpdateSeat(numeroVol, nomSiege, updatedSeat));
         }
     }
 }

@@ -90,12 +90,12 @@ namespace Api.Vols.Datas.Repository
         /// <param name="nomSiege">Le nom du siege.</param>
         /// <param name="status">Le status souhaité.</param>
         /// <returns></returns>
-        public Seat? UpdateSeat(string numeroVol, Seat seat)
+        public Seat UpdateSeat(string numeroVol, string nomSiege, Seat seat)
         {
             var flight = GetFlights().Find(v => v.FlightNumber == numeroVol);
-            var seat = flight?.Sieges.Find(s => s.Name == nomSiege);
-            seat.Status = status;
-            return seat;
+            flight.Sieges.Find(s => s.Name == nomSiege).Status = seat.Status;
+            UpdateFlight(flight);
+            return flight.Sieges.Find(s => s.Name == nomSiege);
         }
 
         /// <summary>

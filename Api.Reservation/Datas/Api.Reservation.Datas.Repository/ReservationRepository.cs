@@ -38,8 +38,9 @@ namespace Api.Reservation.Datas.Repository
         /// <returns></returns>
         public async Task<List<Entities.Reservation>> GetReservationsByNumeroVolAsync(string numeroVol)
         {
-            return await _context.Reservations
+             return await _context.Reservations
                 .Where(r => r.NumeroVol == numeroVol)
+                .Include(r => r.Utilisateur)
                 .ToListAsync()
                 .ConfigureAwait(false);
         }
@@ -47,14 +48,16 @@ namespace Api.Reservation.Datas.Repository
         /// <summary>
         /// Cette méthode permet de recupérer les reservations par le nom de l'utilisateur
         /// </summary>
-        /// <param name="nomUtilisateur">The nom utilisateur.</param>
+        /// <param name="nomUtilisateur">le nom utilisateur.</param>
         /// <returns></returns>
         public async Task<List<Entities.Reservation>> GetReservationsByUtilisateurAsync(string nomUtilisateur)
         {
             return await _context.Reservations
                 .Where(r => r.Utilisateur.Nom == nomUtilisateur)
+                .Include(r => r.Utilisateur)
                 .ToListAsync()
                 .ConfigureAwait(false);
+          
         }
 
         /// <summary>
@@ -79,6 +82,7 @@ namespace Api.Reservation.Datas.Repository
         {
            await _context.Reservations.AddAsync(reservation);
            await _context.SaveChangesAsync();
+
             return reservation;
         }
 

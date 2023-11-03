@@ -51,5 +51,26 @@ namespace Api.Reservation.Controllers
             return Ok(await _reservationService.GetReservationsAsync());
         }
 
+        // GET api/Reservations/utilisateur/Doe
+        [HttpGet("/utilisateur/{nomUtilisateur}")]
+        public async Task<IActionResult> GetReservationsByUtilisateurAsync(string nomUtilisateur)
+        {
+            return Ok(await _reservationService.GetReservationsByUtilisateurAsync(nomUtilisateur));
+        }
+
+        // GET api/Reservations/vol/AV123
+        [HttpGet("vol/{numeroVol}")]
+        public async Task<IActionResult> GetReservationsByNumeroVolAsync(string numeroVol)
+        {
+             return Ok(await _reservationService.GetReservationsByNumeroVolAsync(numeroVol));
+        }
+
+        // GET api/Reservations/1
+        [HttpDelete("/{id}")]
+        public async Task<IActionResult> DeleteReservationAsync(int id)
+        {
+            await _reservationService.DeleteReservationAsync(id);
+            return Ok("Reservation  supprimée");
+        }
     }
 }

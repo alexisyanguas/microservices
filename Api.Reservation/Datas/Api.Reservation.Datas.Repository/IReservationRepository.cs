@@ -3,23 +3,24 @@ namespace Api.Reservation.Datas.Repository
 {
     public interface IReservationRepository
     {
-        /// <summary>
+           /// <summary>
         /// Cette méthode permet de recupérer la liste des reservations
         /// </summary>
         /// <returns></returns>
         Task<List<Entities.Reservation>> GetReservationsAsync();
 
-        /// <summary>
+         /// <summary>
         /// Cette méthode permet de recupérer les reservations par numéro de vol
         /// </summary>
         /// <param name="numeroVol">le numéro du vol.</param>
         /// <returns></returns>
+
         Task<List<Entities.Reservation>> GetReservationsByNumeroVolAsync(string numeroVol);
 
-        /// <summary>
+             /// <summary>
         /// Cette méthode permet de recupérer les reservations par le nom de l'utilisateur
         /// </summary>
-        /// <param name="nomUtilisateur">The nom utilisateur.</param>
+        /// <param name="nomUtilisateur">le nom utilisateur.</param>
         /// <returns></returns>
         Task<List<Entities.Reservation>> GetReservationsByUtilisateurAsync(string nomUtilisateur);
 
@@ -30,7 +31,7 @@ namespace Api.Reservation.Datas.Repository
         /// <returns></returns>
         Task<Entities.Reservation> GetReservationByIdAsync(int id);
 
-        /// <summary>
+           /// <summary>
         /// Cette methode permet de créer une nouvelle reservation.
         /// </summary>
         /// <param name="reservation">Les informations de la nouvelle reservation</param>
@@ -43,7 +44,7 @@ namespace Api.Reservation.Datas.Repository
         /// <param name="reservation">les informations modifié d'une reservation.</param>
         Task UpdateReservation(Entities.Reservation reservation);
 
-        /// <summary>
+         /// <summary>
         /// Cette méthode permet de supprimer une reservation
         /// </summary>
         /// <param name="id">The identifier.</param>

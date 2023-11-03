@@ -50,15 +50,19 @@ namespace Api.Reservation.Business.Service
         }
 
         /// <summary>
-        /// Creates the reservation asynchronous.
+        /// Creates the reservation asynchronous
         /// </summary>
         /// <param name="reservation">The reservation.</param>
         /// <returns></returns>
         /// <exception cref="Api.Reservation.Generals.Common.BusinessException">Echec de création d'une reservation : Le siège n'est pas disponible.</exception>
+        /// <exception cref="Api.Reservation.Generals.Common.BusinessException">Echec de création d'une reservation : L'utilisateur n'existe pas.</exception>
         public async Task<Datas.Entities.Reservation> CreateReservationAsync(Datas.Entities.Reservation reservation)
         {
-            // Vérifier l'existence de l'utilisateur ,sinon levez une exception
-            //TODO
+            Datas.Entities.Utilisateur userSelected = await _utilisateurRepository.GetUtilisateurByIdAsync(reservation.UtilisateurId);
+            if (userSelected == null)
+            {
+                throw new BusinessException("Echec de création d'une reservation : L'utilisateur n'existe pas.");
+            }
 
             var siegeStatus = await GetSiegeStatusAsync(reservation.NumeroVol, reservation.NumeroSiege);
 
@@ -67,6 +71,12 @@ namespace Api.Reservation.Business.Service
                 throw new BusinessException("Echec de création d'une reservation : Le siège n'est pas disponible.");
             }
 
+            Seat seat = new Seat
+            {
+                Status = "Reserve"
+            };
+
+            await _flightsApi.UpdateSiegeStatusAsync(reservation.NumeroVol, reservation.NumeroSiege, seat);
             // Le siège est disponible, procédez à la création de la réservation
             return await _reservationRepository.CreateReservationAsync(reservation)
                 .ConfigureAwait(false);
@@ -76,10 +86,62 @@ namespace Api.Reservation.Business.Service
         /// Cette méthode permet de recupérer la liste des reservations
         /// </summary>
         /// <returns></returns>
-        public async Task <List<Datas.Entities.Reservation>> GetReservationsAsync()
+        public async Task<List<Datas.Entities.Reservation>> GetReservationsAsync()
         {
             return await _reservationRepository.GetReservationsAsync()
                 .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cette méthode permet de recupérer la liste des reservations grace au nom de l'utilisateur
+        /// </summary>
+        /// <param name="nomUtilisateur">The nom utilisateur.</param>
+        /// <returns></returns>
+        public async Task<List<Datas.Entities.Reservation>> GetReservationsByUtilisateurAsync(string nomUtilisateur)
+        {
+            return await _reservationRepository.GetReservationsByUtilisateurAsync(nomUtilisateur).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cette méthode permet de recupérer la liste des reservations grace au numero de vol
+        /// </summary>
+        /// <param name="numeroVol">The numero vol.</param>
+        /// <returns></returns>
+        public async Task<List<Datas.Entities.Reservation>> GetReservationsByNumeroVolAsync(string numeroVol)
+        {
+            return await _reservationRepository.GetReservationsByNumeroVolAsync(numeroVol).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cette méthode permet de supprimer une reservation, et de libérer le siège
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public async Task DeleteReservationAsync(int id)
+        {
+            Datas.Entities.Reservation reservation = await _reservationRepository.GetReservationByIdAsync(id).ConfigureAwait(false);
+            if (reservation == null)
+            {
+                throw new BusinessException("Echec de suppression d'une reservation : La reservation n'existe pas.");
+            }
+
+            Seat seat = new Seat
+            {
+                Status = "Disponible"
+            };
+            _flightsApi.UpdateSiegeStatusAsync(reservation.NumeroVol, reservation.NumeroSiege, seat);
+            await _reservationRepository.DeleteReservationAsync(id).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cette méthode permet de recupérer une reservation grace à son id
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// 
+        public async Task<Datas.Entities.Reservation> GetReservationByIdAsync(int id)
+        {
+            return await _reservationRepository.GetReservationByIdAsync(id).ConfigureAwait(false);
         }
     }
 }

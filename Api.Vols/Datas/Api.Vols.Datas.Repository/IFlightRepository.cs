@@ -5,7 +5,7 @@ namespace Api.Vols.Datas.Repository
 {
     public interface IFlightRepository
     {
-        /// <summary>
+           /// <summary>
         /// Cette méthode permet de créer un vol
         /// </summary>
         /// <param name="flight">les informations du vol</param>
@@ -54,6 +54,6 @@ namespace Api.Vols.Datas.Repository
         /// <param name="nomSiege">Le nom du siege.</param>
         /// <param name="status">Le status souhaité.</param>
         /// <returns></returns>
-        Seat? UpdateSeat(string numeroVol, Seat seat);
+        Seat UpdateSeat(string numeroVol, string nomSiege, Seat seat);
     }
 }
